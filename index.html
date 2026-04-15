@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Dashboard</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial;
+}
+
+/* LOGIN PAGE */
+.login-container{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+.login-box{
+  background:#fff;
+  padding:30px;
+  border-radius:10px;
+  width:300px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.login-box h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.login-box input{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:5px;
+  border:1px solid #ccc;
+}
+
+.login-box button{
+  width:100%;
+  padding:10px;
+  background:#667eea;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.login-box button:hover{
+  background:#5a67d8;
+}
+
+/* DASHBOARD */
+.dashboard{
+  display:none;
+}
+
+.navbar{
+  background:#1a202c;
+  color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.navbar button{
+  padding:5px 10px;
+  border:none;
+  cursor:pointer;
+}
+
+.sidebar{
+  width:220px;
+  height:100vh;
+  background:#2d3748;
+  position:fixed;
+  color:white;
+  padding-top:20px;
+}
+
+.sidebar a{
+  display:block;
+  padding:12px;
+  color:white;
+  text-decoration:none;
+}
+
+.sidebar a:hover{
+  background:#667eea;
+}
+
+.content{
+  margin-left:220px;
+  padding:20px;
+}
+
+.card-container{
+  display:flex;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.card{
+  flex:1;
+  padding:20px;
+  background:white;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+iframe{
+  width:100%;
+  height:500px;
+  border:none;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-container" id="loginPage">
+  <div class="login-box">
+    <h2>Code Vision's IT Solution</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboardPage">
+
+  <div class="navbar">
+    <h3>My Company Dashboard</h3>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="sidebar">
+    <a onclick="showDashboard()">Dashboard</a>
+    <a onclick="showProfile()">Profile</a>
+    <a onclick="showSettings()">Settings</a>
+  </div>
+
+  <div class="content">
+
+    <!-- KPI CARDS -->
+    <div id="dashboardSection">
+      <div class="card-container">
+        <div class="card">
+          <h3>Total Revenue</h3>
+          <p>$45,000</p>
+        </div>
+        <div class="card">
+          <h3>Total Orders</h3>
+          <p>1,200</p>
+        </div>
+        <div class="card">
+          <h3>Profit</h3>
+          <p>$12,000</p>
+        </div>
+      </div>
+
+      <h2>IBM Cognos Dashboard</h2>
+      <iframe id="dashboardFrame"></iframe>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="profileSection" style="display:none;">
+      <h2>User Profile</h2>
+      <p>Name: Mathavan M</p>
+      <p>Email:abc@gmail.com</p>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="settingsSection" style="display:none;">
+      <h2>Settings</h2>
+
+<h3>Theme</h3>
+<select>
+  <option>Light Mode</option>
+  <option>Dark Mode</option>
+  <option>Blue Theme</option>
+  <option>Green Theme</option>
+</select>
+
+<h3>Notifications</h3>
+<label><input type="checkbox" checked> Email Alerts</label><br>
+<label><input type="checkbox" checked> Dashboard Updates</label><br>
+<label><input type="checkbox"> Weekly Reports</label><br>
+<label><input type="checkbox" checked> System Notifications</label>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+/* COGNOS LINK */
+const dashboardURL = "https://ap2.ca.analytics.ibm.com/bi/?perspective=dashboard&pathRef=.my_folders%2FNew%2Bdashboard%2BCS%2B5&closeWindowOnLastView=true&ui_appbar=false&ui_navbar=false&shareMode=embedded&action=view&mode=dashboard&subView=model0000019d51fd1c97_00000000&nav_filter=true";
+
+/* LOGIN */
+function login(){
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  if(user==="admin" && pass==="1234"){
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("dashboardPage").style.display="block";
+    loadDashboard();
+  }else{
+    alert("Invalid Login");
+  }
+}
+
+/* LOGOUT */
+function logout(){
+  document.getElementById("loginPage").style.display="flex";
+  document.getElementById("dashboardPage").style.display="none";
+}
+
+/* LOAD DASHBOARD */
+function loadDashboard(){
+  document.getElementById("dashboardFrame").src = dashboardURL;
+}
+
+/* NAVIGATION */
+function showDashboard(){
+  document.getElementById("dashboardSection").style.display="block";
+  document.getElementById("profileSection").style.display="none";
+  document.getElementById("settingsSection").style.display="none";
+}
+
+function showProfile(){
+  document.getElementById("dashboardSection").style.display="none";
+  document.getElementById("profileSection").style.display="block";
+  document.getElementById("settingsSection").style.display="none";
+}
+
+function showSettings(){
+  document.getElementById("dashboardSection").style.display="none";
+  document.getElementById("profileSection").style.display="none";
+  document.getElementById("settingsSection").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
